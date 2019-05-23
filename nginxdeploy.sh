@@ -23,7 +23,7 @@ sudo cat > /etc/nginx/sites-enabled/default.conf <<EOF
 server {
    listen 80;
    #listen [::]:80;
-   root /var/www/html;
+   root /var/www/html/LandingPages;
    index index.php index.html index.htm index.nginx-debian.html;
    server_name localhost;
    location / {
@@ -41,11 +41,17 @@ location ~ \.php$ {
    }
 }
 EOF
-sudo mkdir /home/$USER/html/
+#sudo mkdir /home/$USER/html/
 sudo rm /var/www/html/*
 sudo chown -R www-data:www-data /var/www/html
-sudo git clone git@ssh.dev.azure.com:v3/chl-vsts/Marketing/LandingPages
+sudo ssh-keyscan ssh.dev.azure.com >> ~/.ssh/known_hosts
+cd /var/www/html && git clone git@ssh.dev.azure.com:v3/chl-vsts/Marketing/LandingPages
+sudo chown -R www-data:www-data /var/www/html 
 sudo nginx -t
 sudo systemctl reload nginx
 sudo systemctl restart nginx
+sudo systemctl start php7.2-fpm
+sudo systemctl enable php7.2-fpm
+sudo systemctl enable nginx
+sudo systemctl disable apache2
 echo  "${GREEN}NGINX Setup complete${NC}"
