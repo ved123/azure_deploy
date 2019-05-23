@@ -33,12 +33,12 @@
     },
     "ubuntuOSVersion": {
       "type": "string",
-      "defaultValue": "18.04-LTS",
+      "defaultValue": "16.04.0-LTS",
       "allowedValues": [
         "12.04.5-LTS",
         "14.04.5-LTS",
-        "18.04-LTS",
-        "16.04.0-LTS"
+        "16.04.0-LTS",
+        "18.04-LTS"
       ],
       "metadata": {
         "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version."
@@ -128,8 +128,8 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2018-11-01",
       "name": "[variables('storageAccountName')]",
-      "apiVersion": "2018-07-01",
       "location": "[parameters('location')]",
       "sku": {
         "name": "[variables('storageAccountType')]"
@@ -138,8 +138,8 @@
       "properties": {}
     },
     {
-      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2018-11-01",
       "name": "[variables('publicIPAddressName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -150,8 +150,8 @@
       }
     },
     {
-      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2018-11-01",
       "name": "[variables('virtualNetworkName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -171,8 +171,8 @@
       }
     },
     {
-      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2018-11-01",
       "name": "[variables('nicName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -197,8 +197,8 @@
       }
     },
     {
-      "apiVersion": "2018-10-01",
       "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2018-10-01",
       "name": "[variables('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
