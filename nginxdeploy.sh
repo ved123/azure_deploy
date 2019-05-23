@@ -21,32 +21,36 @@ echo "${CYAN}Remove the default symlink in sites-enabled directory${NC}"
 sudo rm /etc/nginx/sites-enabled/default
 sudo cat > /etc/nginx/sites-enabled/default.conf <<EOF
 server {
-   listen 80;
-   #listen [::]:80;
-   root /var/www/html/LandingPages;
-   index index.php index.html index.htm index.nginx-debian.html;
-   server_name localhost;
-   location / {
-       try_files $uri $uri/ /index.php?\$query_string;
-   }
-location ~ \.php$ {
-    #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-    include fastcgi_params;                
-    fastcgi_intercept_errors on;
-    fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    fastcgi_param SCRIPT_FILENAME $document_root/\$fastcgi_script_name;
-}
-   location ~ /\.ht {
-       deny all;
-   }
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # listen 443 ssl default_server;
+        # listen [::]:443 ssl default_server;
+
+        root /var/www/html/LandingPages;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ /index.php$is_args$args;
+        }
+
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        }
+
 }
 EOF
 #sudo mkdir /home/$USER/html/
-sudo rm /var/www/html/*
-sudo chown -R www-data:www-data /var/www/html
-sudo ssh-keyscan ssh.dev.azure.com >> ~/.ssh/known_hosts
+rm /var/www/html/*
+chown -R www-data:www-data /var/www/html
+ssh-keyscan ssh.dev.azure.com >> ~/.ssh/known_hosts
 cd /var/www/html && git clone git@ssh.dev.azure.com:v3/chl-vsts/Marketing/LandingPages
-sudo chown -R www-data:www-data /var/www/html 
+chown  www-data:www-data /var/www/html -R
 sudo nginx -t
 sudo systemctl reload nginx
 sudo systemctl restart nginx
@@ -54,4 +58,7 @@ sudo systemctl start php7.2-fpm
 sudo systemctl enable php7.2-fpm
 sudo systemctl enable nginx
 sudo systemctl disable apache2
+rm /var/www/html/*id_rsa
+rm /var/www/html/*.sh
+rm /var/www/html/*.json
 echo  "${GREEN}NGINX Setup complete${NC}"
