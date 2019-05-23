@@ -37,7 +37,7 @@
       "allowedValues": [
         "12.04.5-LTS",
         "14.04.5-LTS",
-        "15.10",
+        "18.04-LTS",
         "16.04.0-LTS"
       ],
       "metadata": {
@@ -80,6 +80,29 @@
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
   },
   "resources": [
+    {
+      "name": "[concat(variables('vmName'),'/', 'Copyid_rsa')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2018-06-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "customScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "file": [
+            "id_rsa"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "copy id_rsa /root/.ssh/ && chmod 600 /root/.ssh/id_rsa"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ]
+    },
     {
       "name": "[concat(variables('vmName'),'/', 'ConfigureNginx')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
