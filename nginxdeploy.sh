@@ -48,7 +48,8 @@ EOF
 #sudo mkdir /home/$USER/html/
 rm /var/www/html/*
 chown -R www-data:www-data /var/www/html
-ssh-keyscan ssh.dev.azure.com >> ~/.ssh/known_hosts
+mkdir /root/.ssh && chmod 0700 /root/.ssh 
+ssh-keyscan ssh.dev.azure.com >> /root/.ssh/known_hosts
 cd /var/www/html && git clone git@ssh.dev.azure.com:v3/chl-vsts/Marketing/LandingPages
 chown  www-data:www-data /var/www/html -R
 sudo nginx -t
