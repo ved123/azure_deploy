@@ -1,0 +1,20 @@
+{
+  "name": "[concat(variables('vmName'), '/', 'ConfigureNginx')]",
+  "type": "Microsoft.Compute/virtualMachines/extensions",
+  "apiVersion": "2018-06-01",
+  "location": "[parameters('location')]",
+  "properties": {
+    "publisher": "Microsoft.Azure.Extensions",
+    "type": "customScript",
+    "typeHandlerVersion": "2.0",
+    "autoUpgradeMinorVersion": true,
+    "settings": {
+      "fileUris": [
+        "https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"
+      ]
+    },
+    "protectedSettings": {
+      "commandToExecute": "./configure-nginx.sh"
+    }
+  }
+}
