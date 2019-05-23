@@ -63,7 +63,7 @@
     "storageAccountType": "Standard_LRS",
     "publicIPAddressName": "myPublicIP",
     "publicIPAddressType": "Dynamic",
-    "vmName": "MyUbuntuVM",
+    "vmName": "LandingPagesVM",
     "vmSize": "Standard_A1",
     "virtualNetworkName": "MyVNET",
     "linuxConfiguration": {
